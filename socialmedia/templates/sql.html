@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_tags %}
+
+{% block content %}
+
+</div class="mb-3">
+    <form action="/admin/sql" method="post">
+    <div class="form-group">
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <button type="submit" value="Submit" class="btn btn-success">QUERY</button>
+    </div>
+    </form>
+</div>>
+
+{% endblock content %}

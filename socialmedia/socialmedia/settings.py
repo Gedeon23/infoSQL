@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django_forms_bootstrap',
 
     #own apps
-    'Users'
+    'Users',
+    'sql'
 ]
 
 MIDDLEWARE = [
