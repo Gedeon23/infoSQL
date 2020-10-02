@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django_forms_bootstrap',
 
-    #own apps
+    # own apps
     'Users',
     'sql'
 ]

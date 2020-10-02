@@ -1,0 +1,6 @@
+{% extends 'base.html' %} 
+{% block content %} 
+{% for q in query %}
+<h1>{{ q.name }}</h1>
+{% endfor %}
+{% endblock content %}
