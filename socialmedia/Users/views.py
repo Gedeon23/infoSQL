@@ -1,6 +1,8 @@
+from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+
 
 
 def signup(request):
@@ -35,3 +37,7 @@ def login(request):
 
 def logout(request):
     logout(request)
+    return redirect('')
+
+def profile(request):
+    return render(request, 'profile.html', {'user': request.user})

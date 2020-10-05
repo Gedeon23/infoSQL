@@ -7,19 +7,19 @@ from django.contrib.auth.models import User
 
 
 def sql(request):
-    if request.method == 'POST':
-        form = Sql_Form(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('admin/sql')
+    if request.user.is_staff:
+        if request.method == 'POST':
+            form = Sql_Form(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('admin/sql')
 
-    else:
-        form = Sql_Form
+        else:
+            form = Sql_Form
 
-    current_User = request.user
+            query_list = Query.objects.all()
 
-    if current_User.is_staff:
-        return render(request, 'sql.html', {'form': form, 'user': current_User})
+            return render(request, 'sql.html', {'form': form, 'user': request.user, 'queries': query_list})
     else:
         return redirect('')
 
