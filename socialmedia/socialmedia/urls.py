@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from Users.views import signup, login, logout, profile
+from Users.views import signup, login, logout_view, profile
 from .views import home_view, discover, search
 from sql.views import sql, sql_query
 from django.conf.urls.static import static
@@ -30,7 +30,7 @@ urlpatterns = [
     path('', home_view),
     path('login/', login),
     path('profile/', profile),
-    path('logout/', logout),
+    path('logout/', logout_view),
     path('user/', home_view),
     path('discover/', search),
     path('discover/<str:query>/', discover),

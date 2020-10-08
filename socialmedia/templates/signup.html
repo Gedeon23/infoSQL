@@ -21,7 +21,7 @@
 </div>
 
 </div class="mb-3">
-    <form action="/signup/" method="post">
+    <form action="/signup/" method="post" enctype="multipart/form-data">
     <div class="form-group">
         {% csrf_token %}
         {{ form|as_bootstrap }}
