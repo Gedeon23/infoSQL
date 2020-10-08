@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<div class="cotainer Users mb-5">
+    <h1>Users</h1>
+    {% if feed.users %}
+  {% for user in feed.users %}
+  
+    <div class="container post border mb-1 mt-2 rounded">
+      <h1>{{ user.User_profile.nickname }}<i style="font-size: 10px; color: grey;">{{ user.username }}</i></h1>
+      <img src="/media/{{ user.User_profile.profile_pic }}" alt="" style="
+      
+      width: 100%;
+      height: auto;
+
+      ">
+    </div>
+  {% endfor %}
+  
+    {% else %}
+    <h4>no results</h4>
+  {% endif %}
+    </div>
+
+
+<div class="cotainer Posts">
+    <h1>Posts</h1>
+        {% if feed.posts %}
+  {% for post in feed.posts %}
+  
+    <div class="container post border mb-1 mt-2 rounded">
+      <h1>{{ post.title }}<i style="font-size: 10px; color: grey;">{{ post.date|timesince }} ago     {{ post.author }}</i></h1>
+      {% if post.image.name != '' %}
+      <img src="/media/{{ post.image.name }}" alt="" style="
+      
+      width: 100%;
+      height: auto;
+
+      ">
+      {% endif %}
+      <p class="text">{{ post.content }}</p>
+    </div>
+
+  {% endfor %}
+
+    {% else %}
+    <h4>no results</h4>
+  {% endif %}
+
+    </div>
+        </div>
+{% endblock content %}

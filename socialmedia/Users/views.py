@@ -2,6 +2,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
+from .models import User_Profile
+from posts.models import Post
 
 
 
@@ -14,7 +16,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('')
+            return redirect('/profile/')
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -29,7 +31,7 @@ def login(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('')
+            return redirect('/')
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
@@ -37,7 +39,13 @@ def login(request):
 
 def logout(request):
     logout(request)
-    return redirect('')
+    return redirect('/')
 
 def profile(request):
-    return render(request, 'profile.html', {'user': request.user})
+    User_Profile.objects.get(user = request.user)
+    feed = Post.objects.filter(author = request.user).order_by('-date')
+    return render(request, 'profile.html', {'request': request, 'feed': feed})
+    
+    # except:
+    #     feed = Post.objects.all().order_by('-date')
+    #     return render(request, 'home.html', {'user': request.user, 'profile': profile, 'feed': feed})

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from Users.views import signup, login, logout, profile
-from .views import home_view
+from .views import home_view, discover, search
 from sql.views import sql, sql_query
 from django.conf.urls.static import static
 from django.conf import settings
@@ -32,6 +32,8 @@ urlpatterns = [
     path('profile/', profile),
     path('logout/', logout),
     path('user/', home_view),
+    path('discover/', search),
+    path('discover/<str:query>/', discover),
     path('create_post/', post_Creation),
     path('user/<int:id>/', home_view),
     path('user/<int:id>/comments/', home_view),
