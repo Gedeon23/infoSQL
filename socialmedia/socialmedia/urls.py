@@ -18,6 +18,9 @@ from django.urls import path
 from Users.views import signup, login, logout, profile
 from .views import home_view
 from sql.views import sql, sql_query
+from django.conf.urls.static import static
+from django.conf import settings
+from posts.views import post_Creation
  
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +30,12 @@ urlpatterns = [
     path('', home_view),
     path('login/', login),
     path('profile/', profile),
-    path('logout/', logout)
-]
+    path('logout/', logout),
+    path('user/', home_view),
+    path('create_post/', post_Creation),
+    path('user/<int:id>/', home_view),
+    path('user/<int:id>/comments/', home_view),
+    path('user/<int:id>/posts/', home_view)
+] 
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

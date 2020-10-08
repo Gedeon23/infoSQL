@@ -19,7 +19,7 @@ def sql(request):
 
             query_list = Query.objects.all()
 
-            return render(request, 'sql.html', {'form': form, 'user': request.user, 'queries': query_list})
+            return render(request, 'sql.html', {'form': form, 'request': request, 'queries': query_list})
     else:
         return redirect('')
 

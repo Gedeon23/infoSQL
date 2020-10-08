@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load bootstrap_tags %}
+
+</div class="mb-3 container">
+    <form action="/create_post/" enctype="multipart/form-data" method="post">
+    <div class="form-group">
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <button type="submit" value="Submit" class="btn btn-success">
+    </div>
+    </form>
+</div>
+{% endblock content %}
