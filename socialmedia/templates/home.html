@@ -2,8 +2,8 @@
 
 {% block header %}
 
-  {% if request.user == AnonymousUser %}
-    <div class="site-wrapper">
+  {% if request.user.is_authenticated == False %}
+    <div class="site-wrapper" style="color: rgba(255,255,255,.75)">
 
       <div class="site-wrapper-inner">
 
@@ -20,7 +20,7 @@
             <h1 class="cover-heading">Mein Twitter-Clone</h1>
             <p class="lead">in jeder Hinsicht schlechter</p>
             <p class="lead">
-              <a href="/signup" class="btn btn-lg btn-default">signup now</a>
+              <a href="/signup" class="btn btn-lg btn-primary">signup now</a>
             </p>
           </div>
 
@@ -42,16 +42,6 @@ a:hover {
   color: #fff;
 }
 
-/* Custom default button */
-.btn-default,
-.btn-default:hover,
-.btn-default:focus {
-  color: #333;
-  text-shadow: none; /* Prevent inheritence from `body` */
-  background-color: #fff;
-  border: 1px solid #fff;
-}
-
 
 /*
  * Base structure
@@ -63,9 +53,7 @@ body {
   background-color: #fff;
 }
 body {
-  color: #fff;
   text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -112,7 +100,6 @@ body {
   font-size: 16px;
   font-weight: bold;
   color: #fff; /* IE8 proofing */
-  color: rgba(255,255,255,.75);
   border-bottom: 2px solid transparent;
 }
 .masthead-nav > li > a:hover,
