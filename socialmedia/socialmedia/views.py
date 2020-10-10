@@ -15,7 +15,7 @@ def home_view(request):
 
 
 def search(request):
-    return render(request, 'search.html', {'request': request})
+    return render(request, 'search/bar.html', {'request': request})
 
 
 def discover(request, query):
@@ -23,4 +23,4 @@ def discover(request, query):
     posts = Post.objects.filter(content__contains=query).order_by('-date')[:5]
     users = User.objects.filter(
         username__contains=query).order_by('-date_joined')[:5]
-    return render(request, 'discover.html', {'request': request, 'feed': {'posts': posts, 'users': users}})
+    return render(request, 'search/results.html', {'request': request, 'feed': {'posts': posts, 'users': users}})

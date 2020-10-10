@@ -13,5 +13,5 @@ def post_Creation(request):
 
     else:
         form = Post_Creation_Form()
-        return render(request, 'Post_Creation.html', {'form': form, 'request': request})
+        return render(request, 'post/create.html', {'form': form, 'request': request})
     

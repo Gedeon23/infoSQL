@@ -2,20 +2,22 @@
 
 {% block content %}
 
-<h1> this is profile</h1>
 
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      Profile Info
-      <div class="container">
-      
-        <h3>{{ request.user.User_Profile.nickname }}</h3>
-        <a class="btn-danger" href="/logout/">Logout</a>
+      <div class="container card mt-3 p-4">
+        <h1>My Profile</h1>        
+        <h3>
+          {{ request.user.profile.nickname }}
+        </h3>
+        
+        <p class="text-secondary">{{ request.user }}</p>
+        <a class="btn-danger btn" href="/logout/">Logout</a>
       </div>
     </div>
     <div class="col-lg">
-    my posts
+        <h1>My Posts</h1>        
   {% for post in feed %}
   
     <div class="container post border mb-1 mt-2 rounded">

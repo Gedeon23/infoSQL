@@ -13,9 +13,15 @@
 
 <script>
 
+$('#search').on('keypress',function(e) {
+    if(e.which == 13) {
+        search()
+    }
+});
+
+
 function search() {
     var query = $("#search").val();
-    console.log(query);
     var url = window.location.href + query + "/";
     window.open(url, '_self');
 };
