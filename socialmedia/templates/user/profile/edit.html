@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load bootstrap_tags %}
+
+
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<div class="container">
+<h1 class="font-weight-bold">Customize Your Profile</h1>
+<form action="/edit_profile/" method="post" enctype="multipart/form-data">
+<div class="form-group">
+{{ form|as_bootstrap}}
+{% csrf_token %}
+<button type="submit" value="Submit" class="btn btn-success">finish</button>
+</div>
+</div>
+
+{% endblock %}

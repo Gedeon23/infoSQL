@@ -14,4 +14,4 @@ class Post_Creation_Form(forms.ModelForm):
         self.fields['image'].widget.attrs['placeholder'] = 'choose and image'
         self.fields['title'].widget.attrs['class'] = 'form-control m-1'
         self.fields['content'].widget.attrs['class'] = 'form-control m-1'
-        self.fields['image'].widget.attrs['class'] = 'form-control m-1'
+        self.fields['image'].widget.attrs['class'] = 'form-control m1 border-0'

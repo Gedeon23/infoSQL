@@ -3,35 +3,35 @@
 {% block content %}
 
 
-<div class="container">
+<div class="container-fluid" style="width: 80%;">
   <div class="row">
-    <div class="col-sm">
-      <div class="container card mt-3 p-4">
+    <div class="col-xl-5">
+      <div class="container card mt-3 p-4 position-relative">
         <h1>My Profile</h1>        
-        <h3>
-          {{ request.user.profile.nickname }}
-        </h3>
         
-        <p class="text-secondary">{{ request.user }}</p>
-        <a class="btn-danger btn" href="/logout/">Logout</a>
+        <div class="container row mb-3">
+            <div class="col-sm">
+            <h3>
+              {{ user.profile.nickname }}
+            </h3>
+            <i class="text-secondary">{{ user }}</i>
+            <p>{{ user.profile.bio }}</p>
+          </div>
+          <div class="col-lg">
+            <img class="icon-b rounded-circle" src="/media/{{ user.profile.profile_pic.name }}" alt="profile picture">
+          </div>
+        </div>
+        <a class="btn-primary btn mb-1 profile-btn" href="/create_post/">create post</a>
+        <a class="btn-default btn mb-1 profile-btn border" href="/edit_profile/">edit profile</a>
+        <a class="btn-danger btn profile-btn" href="/logout/">Logout</a>
+
       </div>
     </div>
-    <div class="col-lg">
+    <div class="col-xl-7">
         <h1>My Posts</h1>        
   {% for post in feed %}
-  
-    <div class="container post border mb-1 mt-2 rounded">
-      <h1>{{ post.title }}<i style="font-size: 10px; color: grey;">{{ post.date|timesince }} ago     {{ post.author }}</i></h1>
-      {% if post.image.name != '' %}
-      <img src="/media/{{ post.image.name }}" alt="" style="
-      
-      width: 100%;
-      height: auto;
 
-      ">
-      {% endif %}
-      <p class="text">{{ post.content }}</p>
-    </div>
+      {% include 'elements/myPost.html' %}
 
   {% endfor %}
     </div>

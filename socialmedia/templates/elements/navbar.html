@@ -5,7 +5,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+    <ul class="navbar-nav w-100">
       <li class="nav-item">
         <a class="nav-link" href="/discover/">Discover</a>
       </li>
@@ -14,21 +14,16 @@
       </li>
 
         {% if request.user.is_authenticated %}
-        <li class="nav-item">
-          <a class="nav-link" href="/profile">Profile:{{request.user}}
-          <img src="/media/{{ profile.profile_pic.name }}" class="rounded-circle" alt="profile_pic"
-          style="
-          height: 30px;
-          width: auto;
-          "
-          >
+        <li class="nav-item p-0 ml-auto mr-0">
+          <a class="nav-link p-0" href="/profile">{{ user }}
+          <img src="/media/{{ user.profile.profile_pic.name }}" class="rounded-circle icon-m" alt="profile_pic">
           </a>
         </li>
         {% else %}
-        <li class="nav-item">
+        <li class="nav-item ml-auto mr-0">
           <a class="nav-link" href="/signup">Signup</a>
           </li>
-        <li class="nav-item">
+        <li class="nav-item mr-0">
           <a class="nav-link" href="/login">Login</a>
           </li>
         {% endif %}

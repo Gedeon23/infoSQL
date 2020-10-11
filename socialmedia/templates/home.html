@@ -153,18 +153,7 @@ body {
 
   {% for post in feed %}
   
-    <div class="container post border mb-1 mt-2 rounded">
-      <h1>{{ post.title }}<i style="font-size: 10px; color: grey;">{{ post.date|timesince }} ago     {{ post.author }}</i></h1>
-      {% if post.image.name != '' %}
-      <img src="/media/{{ post.image.name }}" alt="" style="
-      
-      width: 100%;
-      height: auto;
-
-      ">
-      {% endif %}
-      <p class="text">{{ post.content }}</p>
-    </div>
+    {% include 'elements/post.html' %}
 
   {% endfor %}
 

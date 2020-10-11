@@ -10,6 +10,8 @@ class Post(models.Model):
     image       = models.ImageField(blank=True, null=True, upload_to="posts/")
     author      = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date        = models.DateTimeField(auto_now_add=True)
+    is_edited   = models.BooleanField(default=False)
+    like_count  = models.IntegerField(default=0)
 
     def get_total_likes(self):
         return self.likes.users.count()

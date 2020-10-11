@@ -1,11 +1,12 @@
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from posts.models import Post
 from Users.models import User_Profile
 import datetime
 from django.utils import timezone
+from django.apps import apps
 
 
 def home_view(request):

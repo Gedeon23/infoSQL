@@ -1,0 +1,65 @@
+<div class="container post border mb-1 mt-2 rounded p-4" style="position: relative;">
+    <a href="/post/{{ post.id }}/" class="deco-none"><span class="link-span"></span>    </a>
+        
+        <div class="container p-0 nav">
+            <h1 class="d-inline">{{ post.title }}</h1>
+            {% load static %}
+            <i class="ml-auto mr-0 d-inline nav-item" style="font-size: 10px; color: grey;">{{ post.date|timesince }} ago by {{ post.author }} {% if post.author.is_staff %}<img class="icon-s" src="{% static "admin.png" %}" alt="staff">{% endif %}
+            <img class="icon rounded-circle" src="/media/{{ post.author.profile.profile_pic.name }}" alt="profile"></i></h1>
+        </div>
+        
+        {% if post.image.name != '' %}
+            <img src="/media/{{ post.image.name }}" alt="" style="
+            
+            width: 100%;
+            height: auto;
+
+            ">
+        {% endif %}
+        <p class="text">{{ post.content }}</p>
+      <button class="ml-auto btn-danger btn btn-overlap" data-toggle="modal" data-target="#deleteModal{{ post.id }}">Delete</button>
+
+    <style>
+        a.deco-none {
+        color: inherit !important;
+        text-decoration: none !important;
+    }
+
+    .link-span { 
+        position:absolute; 
+        width:100%;
+        height:100%;
+        top:0;
+        left: 0;
+    
+        z-index: 1;
+    }
+
+    .btn-overlap {
+        position: relative;
+        z-index: 100;
+    }
+    </style>
+</div>
+
+<div class="modal fade" id="deleteModal{{ post.id }}" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Are sure you want to delete your post</h4>
+            </div>
+            <div class="modal-body">
+                <h5>{{ post.title }}</h5>
+                <p>{{ post.content }}...</p>
+
+            </div>
+                <div class="modal-footer">
+                    <a href="/delete/post/{{ post.id }}" class="mr-auto btn-danger btn">Delete</a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+
+            </div>
+
+    </a>
+</div>

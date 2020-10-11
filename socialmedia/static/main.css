@@ -1,0 +1,32 @@
+.icon-s {
+    object-fit: cover;
+    height: 15px;
+    width: 15px;
+}
+
+.icon {
+    object-fit: cover;
+    height: 30px;
+    width: 30px;
+}
+
+.icon-m {
+    object-fit: cover;
+    height: 40px;
+    width: 40px;
+}
+
+li.nav-item {
+    height: 40px;
+    padding: auto;
+}
+
+.icon-b {
+    object-fit: cover;
+    height: 200px;
+    width: 200px;
+}
+
+.delete-btn {
+    z-index: 100;
+}
