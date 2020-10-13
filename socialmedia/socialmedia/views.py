@@ -25,3 +25,6 @@ def discover(request, query):
     users = User.objects.filter(
         username__contains=query).order_by('-date_joined')[:5]
     return render(request, 'search/results.html', {'request': request, 'feed': {'posts': posts, 'users': users}})
+
+def error(request, code):
+    return render(request, 'error.html', {'code': code})

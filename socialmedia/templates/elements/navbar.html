@@ -14,13 +14,13 @@
       </li>
 
         {% if request.user.is_authenticated %}
-        <li class="nav-item p-0 ml-auto mr-0">
+        <li class="nav-item p-0 ml-lg-auto mr-0">
           <a class="nav-link p-0" href="/profile">{{ user }}
-          <img src="/media/{{ user.profile.profile_pic.name }}" class="rounded-circle icon-m" alt="profile_pic">
+          <img src="/media/{{ user.profile.profile_pic.name }}" class="d-none d-lg-inline rounded-circle icon-m" alt="profile_pic">
           </a>
         </li>
         {% else %}
-        <li class="nav-item ml-auto mr-0">
+        <li class="nav-item ml-lg-auto mr-0">
           <a class="nav-link" href="/signup">Signup</a>
           </li>
         <li class="nav-item mr-0">

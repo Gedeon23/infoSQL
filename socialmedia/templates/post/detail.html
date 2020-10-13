@@ -26,6 +26,25 @@
         </form>
     </div>
 
+    <div class="likes">
+        <button class="apireq btn">Like</button>
+        <div id="like-count-{{ post.id }}">{{ post.likes.count }}</div>
+    </div>
+
 </div>
 
 {% endblock content %}
+
+{% block js %}
+<script>
+    $('.apireq').click( function() {
+    $.ajax({
+             url : "{{ request.url_full_path }}like/",
+             dataType: "json",
+             success : function (data) {
+                      $('#like-count-{{ post.id }}').text( data.like_count);
+                    }
+                 });
+             });
+</script>
+{% endblock js %}

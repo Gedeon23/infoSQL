@@ -14,7 +14,7 @@ class Profile_form(forms.ModelForm):
         self.fields['profile_pic'].widget.attrs['placeholder'] = 'choose and profile picture'
         self.fields['nickname'].widget.attrs['class'] = 'form-control m-1'
         self.fields['bio'].widget.attrs['class'] = 'form-control m-1'
-        self.fields['profile_pic'].widget.attrs['class'] = 'form-control m-1'
+        self.fields['profile_pic'].widget.attrs['class'] = 'form-control m-1 border-0'
 
 class loginForm(forms.Form):
     username = forms.CharField(label='username', max_length=100)

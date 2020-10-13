@@ -10,21 +10,24 @@
         <h1>My Profile</h1>        
         
         <div class="container row mb-3">
-            <div class="col-sm">
+            <div class="col-4">
             <h3>
               {{ user.profile.nickname }}
             </h3>
             <i class="text-secondary">{{ user }}</i>
             <p>{{ user.profile.bio }}</p>
           </div>
-          <div class="col-lg">
+          
+          <div class="col-8">
             <img class="icon-b rounded-circle" src="/media/{{ user.profile.profile_pic.name }}" alt="profile picture">
           </div>
         </div>
-        <a class="btn-primary btn mb-1 profile-btn" href="/create_post/">create post</a>
-        <a class="btn-default btn mb-1 profile-btn border" href="/edit_profile/">edit profile</a>
-        <a class="btn-danger btn profile-btn" href="/logout/">Logout</a>
-
+      
+        <div class="container row">
+          <a class="btn-primary btn profile-btn d-inline col" href="/create_post/">create post</a>
+          <a class="btn-default btn ml-1 mr-1 profile-btn border d-inline col" href="/edit_profile/">edit profile</a>
+          <a class="btn-danger btn profile-btn d-inline col" href="/logout/">Logout</a>
+        </div>
       </div>
     </div>
     <div class="col-xl-7">

@@ -38,13 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3rd party apps
-    'crispy_forms',
     'django_forms_bootstrap',
+    'rest_framework',
 
     # own apps
     'Users',
     'sql',
-    'likes',
     'comments',
     'posts'
 ]

@@ -18,6 +18,7 @@
         {% endif %}
         <p class="text">{{ post.content }}</p>
       <button class="ml-auto btn-danger btn btn-overlap" data-toggle="modal" data-target="#deleteModal{{ post.id }}">Delete</button>
+      <a class="ml-auto btn-default border btn btn-overlap" href="/edit_post/{{ post.id }}/">edit</a>
 
     <style>
         a.deco-none {
