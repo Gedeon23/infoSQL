@@ -1,8 +1,10 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
 from .models import User_Profile
 from posts.models import Post
 from .forms import loginForm, Profile_form
@@ -52,13 +54,13 @@ def logout_view(request):
 
 @login_required
 def profile(request):
-    # try:
-    User_Profile.objects.get(user=request.user)
-    feed = Post.objects.filter(author=request.user).order_by('-date')
-    return render(request, 'user/profile/overview.html', {'request': request, 'feed': feed})
+    try:
+        User_Profile.objects.get(user=request.user)
+        feed = Post.objects.filter(author=request.user.profile).order_by('-date')
+        return render(request, 'user/profile/overview.html', {'request': request, 'feed': feed})
 
-    # except:
-    return redirect('/create_profile/')
+    except:
+        return redirect('/create_profile/')
 
 @login_required
 def profile_creation_view(request):
@@ -83,3 +85,12 @@ def edit_profile_view(request):
         if form.is_valid(): 
             form.save()
             return redirect('/profile/')
+
+def user_overview(request, id):
+    user = get_object_or_404(User, pk=id)
+    
+    if user == request.user:
+        return redirect('/profile/')
+    else:
+        return render(request, 'user/overview.html', { 'user_data': user})
+

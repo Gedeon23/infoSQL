@@ -23,6 +23,6 @@ class loginForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['placeholder'] = "enter your username"
-        self.fields['password'].widget.attrs['placeholder'] = 'enter your password'
         self.fields['username'].widget.attrs['class'] = 'form-control m-1'
+        self.fields['password'].widget.attrs['placeholder'] = 'enter your password'
         self.fields['password'].widget.attrs['class'] = 'form-control m-1'

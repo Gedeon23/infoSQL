@@ -1,0 +1,44 @@
+<!-- Footer -->
+<footer class=" text-white bg-primary pt-4">
+
+  <!-- Footer Elements -->
+  <div class="container">
+
+    <!-- Call to action -->
+    {% if user.is_anonymous %}
+
+    <ul class="list-unstyled list-inline text-center py-2">
+      <li class="list-inline-item">
+        <h5 class="mb-1">Register for free</h5>
+      </li>
+      <li class="list-inline-item">
+        <a href="/signup/" class="btn border-white text-white btn-rounded">signup</a>
+      </li>
+    </ul>
+
+    {% endif %}
+    <!-- Call to action -->
+    <div class="row">
+        <div class="col-sm-6 text-center">
+            <h5>Admin utils</h5>
+            <a href="/admin/">panel</a><br>
+            <a href="/admin/sql/">sql</a>
+        </div>
+        <div class="col-sm-6 text-center">
+            <h5>Support</h5>
+            <a href="/admin/">commonly asked questions</a><br>
+            <a href="/admin/sql/">contact</a>
+        </div>
+    </div>
+
+  </div>
+  <!-- Footer Elements -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://mdbootstrap.com/">Not Twitter</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->

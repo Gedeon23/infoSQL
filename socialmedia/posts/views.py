@@ -1,10 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import Post_Serializer
+from comments.serializers import Comment_Serializer
 from .forms import Post_Creation_Form
 from .models import Post
-from comments.forms import commentForm
+from comments.models import Comment
 
 class Get_Post_List(APIView):
     def get(self, request):
@@ -51,11 +52,7 @@ def delete_post(request, id):
 def post_view(request, id):
     if request.method == 'GET':
         post = get_object_or_404(Post, pk=id)
-        form = commentForm()
-        return render(request, 'post/detail.html', {
-            'from': form, 
-            'post': post
-            })
+        return render(request, 'post/detail.html', {'post': post})
     else:
         return redirect()
 
@@ -63,7 +60,7 @@ def post_view(request, id):
 class Post_Like_API(APIView):
     def get(self, request, id):
         post = get_object_or_404(Post, pk=id)
-        user = self.request.user
+        user = self.request.user.profile
         if user in post.likes.all():
             liked = False
             post.likes.remove(user)
@@ -78,3 +75,32 @@ class Post_Like_API(APIView):
             'like_count': like_count
         }
         return Response(data)
+
+class Post_Comment_API(APIView):
+    def post(self, request, id):
+        post = get_object_or_404(Post, pk=id)
+        user = self.request.user.profile
+        content = self.request.POST.get('comment')
+        comment = Comment(content=content, author=user, post=post)
+        comment.save()
+        comments = get_list_or_404(Comment, post=post)
+        serialized = Comment_Serializer(comments, many=True)
+        return Response(
+            data = {
+                'success': True,
+                'content': content,
+                'comments': serialized.data
+            }
+        )
+
+class Get_Posts_Comment_List(APIView):
+    def get(self, request, id):
+        post = get_object_or_404(Post, pk=id)
+        comments = get_list_or_404(Comment, post=post, parent_comment=None)
+        serialized = Comment_Serializer(comments, many=True)
+        return Response(
+            data = {
+                'message': 'easy',
+                'comments': serialized.data
+            }
+        )

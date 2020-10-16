@@ -4,8 +4,8 @@
         <div class="container p-0 nav">
             <h1 class="d-inline">{{ post.title }}</h1>
             {% load static %}
-            <i class="ml-auto mr-0 d-inline nav-item" style="font-size: 10px; color: grey;">{{ post.date|timesince }} ago by {{ post.author }} {% if post.author.is_staff %}<img class="icon-s" src="{% static "admin.png" %}" alt="staff">{% endif %}
-            <img class="icon rounded-circle" src="/media/{{ post.author.profile.profile_pic.name }}" alt="profile"></i></h1>
+            <a href="/user/{{ post.author.user.id }}/" class="btn-overlap ml-auto mr-0 d-inline nav-item deco-none" style="font-size: 10px; color: grey;">{{ post.date|timesince }} ago by {{ post.author }} {% if post.author.user.is_staff %}<img class="icon-s" src="{% static "admin.png" %}" alt="staff">{% endif %}
+            <img class="icon rounded-circle" src="/media/{{ post.author.profile_pic.name }}" alt="profile"></a></h1>
         </div>
         
         {% if post.image.name != '' %}
@@ -16,12 +16,24 @@
 
             ">
         {% endif %}
-        <p class="text">{{ post.content }}</p>
-      <button class="ml-auto btn-danger btn btn-overlap" data-toggle="modal" data-target="#deleteModal{{ post.id }}">Delete</button>
-      <a class="ml-auto btn-default border btn btn-overlap" href="/edit_post/{{ post.id }}/">edit</a>
+        <p class="text">{{ post.content|linebreaks }}</p>
+
+
+        <div class="border-top pt-3">
+            <div class="likes d-inline mr-4">
+                {% load static %}
+                <img id="apireq-{{ post.id }}" class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
+                <div id="like-count-{{ post.id }}" class="d-inline">{{ post.likes.count }}</div>
+            </div>
+            <a class="btn-overlap d-inline" href="/post/{{ post.id }}/?intent=comment">
+                <img  class="icon comment-btn" src="{% static "comment-icon.svg" %}"/>
+            </a>
+            <button class="pull-right ml-2 btn-danger btn btn-overlap" data-toggle="modal" data-target="#deleteModal{{ post.id }}">Delete</button>
+            <a class="pull-right btn-default border btn btn-overlap" href="/edit_post/{{ post.id }}/">edit</a>
+        </div>
 
     <style>
-        a.deco-none {
+        a.deco-none:hover {
         color: inherit !important;
         text-decoration: none !important;
     }
@@ -40,7 +52,25 @@
         position: relative;
         z-index: 100;
     }
+
+    .like-btn {
+        fill: red;
+    }
+
     </style>
+
+    <script>
+        var likeBtn = $('#apireq-{{ post.id }}')
+        likeBtn.click( function() {
+        $.ajax({
+            url : "/post/{{ post.id }}/like/",
+            dataType: "json",
+            success : function (data) {
+                    $('#like-count-{{ post.id }}').text( data.like_count);
+                    }
+                });
+            });
+    </script>
 </div>
 
 <div class="modal fade" id="deleteModal{{ post.id }}" role="dialog">

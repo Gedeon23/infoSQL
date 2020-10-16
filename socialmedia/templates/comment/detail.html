@@ -1,34 +1,54 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
 <div class="container post border mb-1 mt-2 rounded p-4" style="position: relative;">
+    <a href="/post/{{ comment.post.id }}/" class="deco-none"><span class="link-span"></span>    </a>
         
         <div class="container p-0 nav">
-            <h1 class="d-inline">{{ post.title }}</h1>
+            <h1 class="d-inline">{{ comment.post.title }}</h1>
             {% load static %}
-            <a href="/user/{{ post.author.user.id }}/" class="btn-overlap ml-auto mr-0 d-inline nav-item deco-none" style="font-size: 10px; color: grey;">{{ post.date|timesince }} ago by {{ post.author }} {% if post.author.is_staff %}<img class="icon-s" src="{% static "admin.png" %}" alt="staff">{% endif %}
-            <img class="icon rounded-circle" src="/media/{{ post.author.profile_pic.name }}" alt="profile"></i></h1>
+            <a href="/user/{{ comment.post.author.user.id }}/" class="btn-overlap ml-auto mr-0 d-inline nav-item deco-none" style="font-size: 10px; color: grey;">{{ comment.post.date|timesince }} ago by {{ comment.post.author }} {% if comment.post.author.user.is_staff %}<img class="icon-s" src="{% static "admin.png" %}" alt="staff">{% endif %}
+            <img class="icon rounded-circle" src="/media/{{ comment.post.author.profile_pic.name }}" alt="profile"></i></h1>
             </a>
         </div>
         
         {% if post.image.name != '' %}
-            <img src="/media/{{ post.image.name }}" alt="" style="
+            <img src="/media/{{ comment.post.image.name }}" alt="" style="
             
             width: 100%;
             height: auto;
 
             ">
         {% endif %}
-
-        <p class="text">{{ post.content|linebreaks }}</p>
-        <div class="border-top p-3">
-            <button onclick="AjaxLikePost({{ post.id }})" class="btn likes d-inline mr-4">
+        <p class="text">{{ comment.post.content|linebreaks }}</p>
+        <div class="border-top pt-3">
+            <div class="likes d-inline mr-4">
                 {% load static %}
-                <img id="apireq-{{ post.id }}" class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
-                <div id="like-count-{{ post.id }}" class="d-inline">{{ post.likes.count }}</div>
-            </button>
-            <a class="btn-overlap d-inline" id="com-post-btn">
+                <img class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
+                <div id="like-count-{{ comment.post.id }}" class="d-inline">{{ comment.post.likes.count }}</div>
+            </div>
+            <a class="btn-overlap d-inline" href="/post/{{ comment.post.id }}/?intent=comment">
+                <img  class="icon" src="{% static "comment-icon.svg" %}"/>
+            </a>
+        </div>
+
+<div class="container comment border mb-1 mt-2 rounded p-4 btn-overlap" style="position: relative;">
+        
+        <div class="container p-0 nav">
+            {% load static %}
+            <a href="/user/{{ comment.author.user.id }}/" class="btn-overlap ml-auto mr-0 d-inline nav-item deco-none" style="font-size: 10px; color: grey;">{{ comment.date|timesince }} ago by {{ comment.author }} {% if comment.author.is_staff %}<img class="icon-s" src="{% static "admin.png" %}" alt="staff">{% endif %}
+            <img class="icon rounded-circle" src="/media/{{ comment.author.profile_pic.name }}" alt="profile"></i></h1>
+            </a>
+        </div>
+
+        <h4 class="text">{{ comment.content|linebreaks }}</h4>
+        <div class="border-top p-3">
+            <div class="likes d-inline mr-4">
+                {% load static %}
+                <img id="apireq-{{ comment.id }}" class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
+                <div id="like-count-{{ comment.id }}" class="d-inline">{{ comment.likes.count }}</div>
+            </div>
+            <a class="btn-overlap d-inline" id="com-comment-btn">
                 <img  class="icon" src="{% static "comment-icon.svg" %}"/>
             </a>
         </div>
@@ -45,36 +65,10 @@
             </div>
         </div>
 
-    <style>
-        a.deco-none {
-        color: inherit !important;
-        text-decoration: none !important;
-    }
-
-    .link-span { 
-        position:absolute; 
-        width:100%;
-        height:100%;
-        top:0;
-        left: 0;
-    
-        z-index: 1;
-    }
-
-    .btn-overlap {
-        position: relative;
-        z-index: 100;
-    }
-
-    .like-btn {
-        fill: red;
-    }
-    </style>
-
     <script>
         $( document ).ready(function() {
             $.ajax({
-            url : "/api/post/{{ post.id }}/comments/",
+            url : "/api/comment/{{ comment.id }}/comments/",
             dataType: "json",
             success : function (data) {
                 for (i = 0; i < data.comments.length; i++) {
@@ -96,7 +90,7 @@
             $('#id_comment').focus();
         }
         
-        var comBtn = $('#com-post-btn');
+        var comBtn = $('#com-comment-btn');
         comBtn.click( function() {
             $('#com-form').toggle();
             console.log('clicked');
@@ -126,35 +120,6 @@
                     });
                 });
 
-        function AjaxLikePost(id){
-        $.ajax({
-            url : "/post/" + id + "/like/",
-            dataType: "json",
-            success : function (data) {
-                    $('#like-count-' + id).text( data.like_count);
-                    if (data.liked){
-                        likeBtn.css({ fill: 'red' });
-                    } else{
-                        likeBtn.css({ fill: 'black' });
-                    }
-                    }
-                });
-            };
-
-        function AjaxLikeCom(id){
-        $.ajax({
-            url : "/comment/" + id + "/like/",
-            dataType: "json",
-            success : function (data) {
-                    $('#like-count-' + id).text( data.like_count);
-                    if (data.liked){
-                        likeBtn.css({ fill: 'red' });
-                    } else{
-                        likeBtn.css({ fill: 'black' });
-                    }
-                    }
-                });
-            };
     </script>
 </div>
 {% endblock content %}

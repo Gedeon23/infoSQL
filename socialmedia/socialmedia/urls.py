@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import auth_login
 from django.urls import path
-from Users.views import signup, login_view, logout_view, profile, profile_creation_view, edit_profile_view
+from Users.views import signup, login_view, logout_view, profile, profile_creation_view, edit_profile_view, user_overview
 from .views import home_view, discover, search, error
 from sql.views import sql, sql_query
 from django.conf.urls.static import static
 from django.conf import settings
-from posts.views import post_Creation, delete_post, post_view, edit_post_view, Get_Post_List, Post_Like_API
+from posts.views import post_Creation, delete_post, post_view, edit_post_view, Get_Post_List, Post_Like_API, Post_Comment_API, Get_Posts_Comment_List
+from comments.views import comment_view, Comment_Like_API, Get_Comments_Comment_List, Comment_Comment_API
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,7 +38,7 @@ urlpatterns = [
     path('discover/<str:query>/', discover),
     path('create_post/', post_Creation),
     path('edit_post/<int:id>/', edit_post_view),
-    path('user/<int:id>/', home_view),
+    path('user/<int:id>/', user_overview),
     path('user/<int:id>/comments/', home_view),
     path('user/<int:id>/posts/', home_view),
     path('create_profile/', profile_creation_view),
@@ -46,7 +47,14 @@ urlpatterns = [
     path('post/<int:id>/', post_view),
     path('error/<str:code>/', error),
     path('api/posts/', Get_Post_List.as_view()),
-    path('post/<int:id>/like/', Post_Like_API.as_view())
+    path('api/post/<int:id>/comments/', Get_Posts_Comment_List.as_view()),
+    path('api/comment/<int:id>/comments/', Get_Comments_Comment_List.as_view()),
+    path('post/<int:id>/like/', Post_Like_API.as_view()),
+    path('post/<int:id>/comment/', Post_Comment_API.as_view()),
+    path('comment/<int:id>/', comment_view),
+    path('comment/<int:id>/like/', Comment_Like_API.as_view()),
+    path('comment/<int:id>/comment/', Comment_Comment_API.as_view())
+
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

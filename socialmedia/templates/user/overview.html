@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container-fluid" style="width: 80%;">
+  <div class="row">
+    <div class="col-xl-5">
+      <div class="container card mt-3 p-4 position-relative">
+        <h1>My Profile</h1>        
+        
+        <div class="container row mb-3">
+            <div class="col-4">
+            <h3>
+              {{ user_data.profile.nickname }}
+            </h3>
+            <i class="text-secondary">{{ user_data }}</i>
+            <p>{{ user_data.profile.bio }}</p>
+          </div>
+          
+          <div class="col-8">
+            <img class="icon-b rounded-circle" src="/media/{{ user_data.profile.profile_pic.name }}" alt="profile picture">
+          </div>
+        </div>
+      
+        <div class="container row">
+            <div class="col-sm-4"><h4>subs</h4><p>{{ user.profile.followers }}</p></div>
+            <button class="btn btn-success col-sm-4">sub</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-7">
+        <h1>My Posts</h1>        
+  {% for post in feed %}
+
+      {% include 'elements/myPost.html' %}
+
+  {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
