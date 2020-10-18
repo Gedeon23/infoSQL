@@ -26,7 +26,7 @@
             <button onclick="AjaxLikePost({{ post.id }})" class="btn likes d-inline mr-4">
                 {% load static %}
                 <img id="apireq-{{ post.id }}" class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
-                <div id="like-count-{{ post.id }}" class="d-inline">{{ post.likes.count }}</div>
+                <div id="post-like-count-{{ post.id }}" class="d-inline">{{ post.likes.count }}</div>
             </button>
             <a class="btn-overlap d-inline" id="com-post-btn">
                 <img  class="icon" src="{% static "comment-icon.svg" %}"/>
@@ -45,116 +45,64 @@
             </div>
         </div>
 
-    <style>
-        a.deco-none {
-        color: inherit !important;
-        text-decoration: none !important;
-    }
-
-    .link-span { 
-        position:absolute; 
-        width:100%;
-        height:100%;
-        top:0;
-        left: 0;
-    
-        z-index: 1;
-    }
-
-    .btn-overlap {
-        position: relative;
-        z-index: 100;
-    }
-
-    .like-btn {
-        fill: red;
-    }
-    </style>
 
     <script>
-        $( document ).ready(function() {
-            $.ajax({
-            url : "/api/post/{{ post.id }}/comments/",
-            dataType: "json",
-            success : function (data) {
-                for (i = 0; i < data.comments.length; i++) {
-                    console.log(data.comments[i].author)
-                    comment = data.comments[i]
-                    $('#comments').append("{% include 'elements/comment.html' %}");
-                    }
-                }
-            });
-        });
 
+function updateComments(data){
+    for (i = 0; i < data.comments.length; i++) {
+        console.log('inserting:')
+        console.log(data.comments[i])
+        comment = data.comments[i]
+        $('#comments').append("{% include 'elements/comment.html' %}");
+    }
+}
 
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const intent = urlParams.get('intent');
-
-        if (intent != 'comment'){
-            $('#com-form').toggle();
-            $('#id_comment').focus();
+$( document ).ready(function() {
+    $.ajax({
+        url : "/api/post/{{ post.id }}/comments/",
+        dataType: "json",
+        success : function(data){
+            console.log('site loaded')
+            console.log('first comment insert')
+            updateComments(data)
         }
-        
-        var comBtn = $('#com-post-btn');
-        comBtn.click( function() {
+    });
+});
+
+const urlParams = new URLSearchParams(window.location.search);
+const intent = urlParams.get('intent');
+
+if (intent != 'comment'){
+    $('#com-form').toggle();
+    $('#id_comment').focus();
+}
+
+var comBtn = $('#com-post-btn');
+comBtn.click( function() {
+    $('#com-form').toggle();
+    console.log('clicked');
+});
+
+var token = '{{ csrf_token }}';
+var comSub = $('#com-submit');
+var comCont = $('#id_comment').val();
+comSub.click( function() {
+    var comCont = $('#id_comment').val();
+    $.ajax({
+        headers: { "X-CSRFToken": token },
+        method: 'POST',
+        data: { 'comment': comCont },
+        url : "comment/",
+        dataType: "json",
+        success : function (data) {
+            console.log('updating comments after submit')
             $('#com-form').toggle();
-            console.log('clicked');
-        });
+            $('#comments').empty();
+            updateComments(data);
+        }
+    });
+});
 
-        var token = '{{ csrf_token }}';
-        var comSub = $('#com-submit');
-        var comCont = $('#id_comment').val();
-        comSub.click( function() {
-            var comCont = $('#id_comment').val();
-            $.ajax({
-                headers: { "X-CSRFToken": token },
-                method: 'POST',
-                data: { 'comment': comCont },
-                url : "comment/",
-                dataType: "json",
-                success : function (data) {
-                        console.log(data)
-                        $('#com-form').toggle()
-                        $('#comments').empty()
-                        for (i = 0; i < data.comments.length; i++) {
-                            console.log(data.comments[i].author)
-                            comment = data.comments[i]
-                            $('#comments').append("{% include 'elements/comment.html' %}");
-                            }
-                        }
-                    });
-                });
-
-        function AjaxLikePost(id){
-        $.ajax({
-            url : "/post/" + id + "/like/",
-            dataType: "json",
-            success : function (data) {
-                    $('#like-count-' + id).text( data.like_count);
-                    if (data.liked){
-                        likeBtn.css({ fill: 'red' });
-                    } else{
-                        likeBtn.css({ fill: 'black' });
-                    }
-                    }
-                });
-            };
-
-        function AjaxLikeCom(id){
-        $.ajax({
-            url : "/comment/" + id + "/like/",
-            dataType: "json",
-            success : function (data) {
-                    $('#like-count-' + id).text( data.like_count);
-                    if (data.liked){
-                        likeBtn.css({ fill: 'red' });
-                    } else{
-                        likeBtn.css({ fill: 'black' });
-                    }
-                    }
-                });
-            };
     </script>
 </div>
 {% endblock content %}

@@ -24,8 +24,8 @@
         <div class="border-top p-3">
             <button onclick="AjaxLikePost({{ post.id }})" class="btn likes d-inline mr-4">
                 {% load static %}
-                <img id="apireq-{{ post.id }}" class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
-                <div id="like-count-{{ post.id }}" class="d-inline">{{ post.likes.count }}</div>
+                <img id="apireq-{{ post.id }}" style="fill: red;" class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
+                <div id="post-like-count-{{ post.id }}" class="d-inline">{{ post.likes.count }}</div>
             </button>
             <a class="btn-overlap d-inline" id="com-post-btn" href="/post/{{ post.id }}/?intent=comment">
                 <img  class="icon" src="{% static "comment-icon.svg" %}"/>

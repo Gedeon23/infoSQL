@@ -22,11 +22,11 @@
         {% endif %}
         <p class="text">{{ comment.post.content|linebreaks }}</p>
         <div class="border-top pt-3">
-            <div class="likes d-inline mr-4">
+            <button class="likes d-inline mr-4 btn" onclick="AjaxLikePost({{ comment.post.id }})">
                 {% load static %}
                 <img class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
-                <div id="like-count-{{ comment.post.id }}" class="d-inline">{{ comment.post.likes.count }}</div>
-            </div>
+                <div id="post-like-count-{{ comment.post.id }}" class="d-inline">{{ comment.post.likes.count }}</div>
+            </button>
             <a class="btn-overlap d-inline" href="/post/{{ comment.post.id }}/?intent=comment">
                 <img  class="icon" src="{% static "comment-icon.svg" %}"/>
             </a>
@@ -43,11 +43,11 @@
 
         <h4 class="text">{{ comment.content|linebreaks }}</h4>
         <div class="border-top p-3">
-            <div class="likes d-inline mr-4">
+            <button class="likes d-inline mr-4 btn" onclick="AjaxLikeCom({{ comment.id }})">
                 {% load static %}
                 <img id="apireq-{{ comment.id }}" class="like-btn btn btn-overlap icon d-inline p-0" src="{% static "like-icon.svg" %}"/>
-                <div id="like-count-{{ comment.id }}" class="d-inline">{{ comment.likes.count }}</div>
-            </div>
+                <div id="com-like-count-{{ comment.id }}" class="d-inline">{{ comment.likes.count }}</div>
+            </button>
             <a class="btn-overlap d-inline" id="com-comment-btn">
                 <img  class="icon" src="{% static "comment-icon.svg" %}"/>
             </a>
@@ -66,59 +66,60 @@
         </div>
 
     <script>
-        $( document ).ready(function() {
-            $.ajax({
-            url : "/api/comment/{{ comment.id }}/comments/",
-            dataType: "json",
-            success : function (data) {
-                for (i = 0; i < data.comments.length; i++) {
-                    console.log(data.comments[i].author)
-                    comment = data.comments[i]
-                    $('#comments').append("{% include 'elements/comment.html' %}");
-                    }
-                }
-            });
-        });
+function updateComments(data){
+    for (i = 0; i < data.comments.length; i++) {
+        console.log('inserting:')
+        console.log(data.comments[i])
+        comment = data.comments[i]
+        $('#comments').append("{% include 'elements/comment.html' %}");
+    }
+}
 
-
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const intent = urlParams.get('intent');
-
-        if (intent != 'comment'){
-            $('#com-form').toggle();
-            $('#id_comment').focus();
+$( document ).ready(function() {
+    $.ajax({
+        url : "/api/comment/{{ comment.id }}/comments/",
+        dataType: "json",
+        success : function(data){
+            console.log('site loaded')
+            console.log('first comment insert')
+            updateComments(data)
         }
-        
-        var comBtn = $('#com-comment-btn');
-        comBtn.click( function() {
-            $('#com-form').toggle();
-            console.log('clicked');
-        });
+    });
+});
 
-        var token = '{{ csrf_token }}';
-        var comSub = $('#com-submit');
-        var comCont = $('#id_comment').val();
-        comSub.click( function() {
-            var comCont = $('#id_comment').val();
-            $.ajax({
-                headers: { "X-CSRFToken": token },
-                method: 'POST',
-                data: { 'comment': comCont },
-                url : "comment/",
-                dataType: "json",
-                success : function (data) {
-                        console.log(data)
-                        $('#com-form').toggle()
-                        $('#comments').empty()
-                        for (i = 0; i < data.comments.length; i++) {
-                            console.log(data.comments[i].author)
-                            comment = data.comments[i]
-                            $('#comments').append("{% include 'elements/comment.html' %}");
-                            }
-                        }
-                    });
-                });
+const urlParams = new URLSearchParams(window.location.search);
+const intent = urlParams.get('intent');
+
+if (intent != 'comment'){
+    $('#com-form').toggle();
+    $('#id_comment').focus();
+}
+
+var comBtn = $('#com-comment-btn');
+comBtn.click( function() {
+    $('#com-form').toggle();
+    console.log('clicked');
+});
+
+var token = '{{ csrf_token }}';
+var comSub = $('#com-submit');
+var comCont = $('#id_comment').val();
+comSub.click( function() {
+    var comCont = $('#id_comment').val();
+    $.ajax({
+        headers: { "X-CSRFToken": token },
+        method: 'POST',
+        data: { 'comment': comCont },
+        url : "comment/",
+        dataType: "json",
+        success : function (data) {
+            console.log('updating comments after submit')
+            $('#com-form').toggle();
+            $('#comments').empty();
+            updateComments(data);
+        }
+    });
+});
 
     </script>
 </div>

@@ -4,7 +4,7 @@
             url : "/post/" + id + "/like/",
             dataType: "json",
             success : function (data) {
-                    $('#like-count-' + id).text( data.like_count);
+                    $('#post-like-count-' + id).text( data.like_count);
                     if (data.liked){
                         likeBtn.css({ fill: 'red' });
                     } else{
@@ -19,7 +19,7 @@
             url : "/comment/" + id + "/like/",
             dataType: "json",
             success : function (data) {
-                    $('#like-count-' + id).text( data.like_count);
+                    $('#com-like-count-' + id).text( data.like_count);
                     if (data.liked){
                         likeBtn.css({ fill: 'red' });
                     } else{
@@ -28,4 +28,5 @@
                     }
                 });
             };
+
 </script>

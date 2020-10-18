@@ -22,7 +22,7 @@ from sql.views import sql, sql_query
 from django.conf.urls.static import static
 from django.conf import settings
 from posts.views import post_Creation, delete_post, post_view, edit_post_view, Get_Post_List, Post_Like_API, Post_Comment_API, Get_Posts_Comment_List
-from comments.views import comment_view, Comment_Like_API, Get_Comments_Comment_List, Comment_Comment_API
+from comments.views import comment_view, Comment_Like_API, Get_Comments_Comment_List, Comment_Comment_API, Get_Comment_Tree
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -53,7 +53,8 @@ urlpatterns = [
     path('post/<int:id>/comment/', Post_Comment_API.as_view()),
     path('comment/<int:id>/', comment_view),
     path('comment/<int:id>/like/', Comment_Like_API.as_view()),
-    path('comment/<int:id>/comment/', Comment_Comment_API.as_view())
+    path('comment/<int:id>/comment/', Comment_Comment_API.as_view()),
+    path('comment/<int:id>/comment_tree/', Get_Comment_Tree.as_view())
 
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
