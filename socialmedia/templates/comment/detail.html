@@ -32,7 +32,10 @@
             </a>
         </div>
 
-<div class="container comment border mb-1 mt-2 rounded p-4 btn-overlap" style="position: relative;">
+
+<div class="container subcontent mb-1 mt-2 rounded p-4 btn-overlap" style="position: relative;">
+
+    <div class="container comment border mb-1 mt-2 rounded p-4 btn-overlap" style="position: relative;">
         
         <div class="container p-0 nav">
             {% load static %}
@@ -66,12 +69,29 @@
         </div>
 
     <script>
+
+function commentTree(data){
+    par_com = data.comment_tree.parent_comment
+    while (par_com){
+        $('.subcontent').prepend("{% include 'elements/commentparent.html' %}");
+        console.log('appended ')
+        console.log(par_com)
+        par_com = par_com.parent_comment;
+    }
+}
+
 function updateComments(data){
-    for (i = 0; i < data.comments.length; i++) {
-        console.log('inserting:')
-        console.log(data.comments[i])
-        comment = data.comments[i]
-        $('#comments').append("{% include 'elements/comment.html' %}");
+    if(data.comments.length == 0){
+        $('#comments').append("<h4 class='text-center'>no comments yet</h4>");
+        commentTree(data);
+    } else {
+        for (i = 0; i < data.comments.length; i++) {
+            console.log('inserting:')
+            console.log(data.comments[i])
+            comment = data.comments[i]
+            $('#comments').append("{% include 'elements/comment.html' %}");
+            commentTree(data);
+        }
     }
 }
 
@@ -81,6 +101,7 @@ $( document ).ready(function() {
         dataType: "json",
         success : function(data){
             console.log('site loaded')
+            console.log(data)
             console.log('first comment insert')
             updateComments(data)
         }
@@ -122,5 +143,7 @@ comSub.click( function() {
 });
 
     </script>
+    </div>
 </div>
+
 {% endblock content %}

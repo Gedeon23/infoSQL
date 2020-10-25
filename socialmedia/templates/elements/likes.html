@@ -5,11 +5,6 @@
             dataType: "json",
             success : function (data) {
                     $('#post-like-count-' + id).text( data.like_count);
-                    if (data.liked){
-                        likeBtn.css({ fill: 'red' });
-                    } else{
-                        likeBtn.css({ fill: 'black' });
-                    }
                     }
                 });
             };
@@ -20,11 +15,6 @@
             dataType: "json",
             success : function (data) {
                     $('#com-like-count-' + id).text( data.like_count);
-                    if (data.liked){
-                        likeBtn.css({ fill: 'red' });
-                    } else{
-                        likeBtn.css({ fill: 'black' });
-                    }
                     }
                 });
             };

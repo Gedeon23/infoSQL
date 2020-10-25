@@ -57,23 +57,13 @@ class Comment_Comment_API(APIView):
 class Get_Comments_Comment_List(APIView):
     def get(self, request, id):
         parent_com = get_object_or_404(Comment, pk=id)
-        comments = get_list_or_404(Comment, parent_comment=parent_com)
-        serialized = Comment_Serializer(comments, many=True)
+        comments = Comment.objects.filter(parent_comment=parent_com)
+        coms_serialized = Comment_Serializer(comments, many=True)
+        comment_tree = Comment_Tree_Serializer(parent_com)
         return Response(
             data={
                 'message': 'easy',
-                'comments': serialized.data
-            }
-        )
-
-
-class Get_Comment_Tree(APIView):
-    def get(self, request, id):
-        comment = get_object_or_404(Comment, pk=id)
-        serialized = Comment_Tree_Serializer(comment)
-        return Response(
-            data={
-                'message': 'medium',
-                'tree': serialized.data
+                'comment_tree': comment_tree.data,
+                'comments': coms_serialized.data
             }
         )
