@@ -28,3 +28,6 @@ def discover(request, query):
 
 def error(request, code):
     return render(request, 'error.html', {'code': code})
+
+def feed_view(request):
+    return render(request, 'feed.html', {})

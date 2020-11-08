@@ -16,8 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.contrib.auth.views import auth_login
 from django.urls import path
-from Users.views import signup, login_view, logout_view, profile, profile_creation_view, edit_profile_view, user_overview
-from .views import home_view, discover, search, error
+from Users.views import signup, login_view, logout_view, profile, profile_creation_view, edit_profile_view, user_overview, User_Follow_API
+from .views import home_view, discover, search, error, feed_view
 from sql.views import sql, sql_query
 from django.conf.urls.static import static
 from django.conf import settings
@@ -30,6 +30,7 @@ urlpatterns = [
     path('admin/sql/<int:id>', sql_query),
     path('signup/', signup),
     path('', home_view),
+    path('feed/', feed_view),
     path('login/', login_view),
     path('profile/', profile),
     path('logout/', logout_view),
@@ -39,6 +40,7 @@ urlpatterns = [
     path('create_post/', post_Creation),
     path('edit_post/<int:id>/', edit_post_view),
     path('user/<int:id>/', user_overview),
+    path('user/<int:id>/follow/', User_Follow_API.as_view()),
     path('user/<int:id>/comments/', home_view),
     path('user/<int:id>/posts/', home_view),
     path('create_profile/', profile_creation_view),
@@ -49,6 +51,7 @@ urlpatterns = [
     path('api/posts/', Get_Post_List.as_view()),
     path('api/post/<int:id>/comments/', Get_Posts_Comment_List.as_view()),
     path('api/comment/<int:id>/comments/', Get_Comments_Comment_List.as_view()),
+    # path('api/personalFeed/posts/<int:post_count>/', ),
     path('post/<int:id>/like/', Post_Like_API.as_view()),
     path('post/<int:id>/comment/', Post_Comment_API.as_view()),
     path('comment/<int:id>/', comment_view),

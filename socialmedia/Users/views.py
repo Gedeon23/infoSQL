@@ -88,9 +88,27 @@ def edit_profile_view(request):
 
 def user_overview(request, id):
     user = get_object_or_404(User, pk=id)
-    
+    posts = Post.objects.filter(author=user.profile)
     if user == request.user:
         return redirect('/profile/')
     else:
-        return render(request, 'user/overview.html', { 'user_data': user})
+        return render(request, 'user/overview.html', { 'user_data': user, 'posts': posts })
 
+class User_Follow_API(APIView):
+    def get(self, request, id):
+        user = get_object_or_404(User_Profile, pk=id)
+        follower = self.request.user
+        if user.followers.filter(pk=follower.pk).exists():
+            following = False
+            user.followers.remove(follower)
+        else:
+            following = True
+            user.followers.add(follower)
+
+        follower_count = user.followers.count()
+        data = {
+            'updated': True,
+            'following': following,
+            'follower_count': follower_count
+        }
+        return Response(data)

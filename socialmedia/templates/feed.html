@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+{% endblock content %}
+
+{% block js %}
+
+<script>
+    
+    var loadedPosts = [];
+
+    $( document ).ready(function() {
+        $.ajax({
+            headers: { "X-CSRFToken": token },
+            method: 'POST',
+            data: { 'loadedPosts': loadedPosts },
+            url : "/api/personalFeed/posts/" + toString(25+loadedPosts.length()) + "/",
+            dataType: "json",
+            success : function (data) {
+                console.log('loading the next 25 posts after submit');
+                insertPosts(data);
+            }
+        });
+    });
+
+</script>
+
+{% endblock js %}

@@ -48,15 +48,6 @@
 
     <script>
 
-function updateComments(data){
-    for (i = 0; i < data.comments.length; i++) {
-        console.log('inserting:')
-        console.log(data.comments[i])
-        comment = data.comments[i]
-        $('#comments').append("{% include 'elements/comment.html' %}");
-    }
-}
-
 $( document ).ready(function() {
     $.ajax({
         url : "/api/post/{{ post.id }}/comments/",
