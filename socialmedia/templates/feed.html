@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="feed">
 
+</div>
 
 
 {% endblock content %}
@@ -9,18 +11,21 @@
 {% block js %}
 
 <script>
-    
-    var loadedPosts = [];
 
-    $( document ).ready(function() {
+
+    $( '.feed' ).ready(function() {
+        var loadedPosts=[]
+        var token = '{{ csrf_token }}';
         $.ajax({
             headers: { "X-CSRFToken": token },
             method: 'POST',
-            data: { 'loadedPosts': loadedPosts },
-            url : "/api/personalFeed/posts/" + toString(25+loadedPosts.length()) + "/",
+            data: { 
+                'loadedPosts': loadedPosts
+             },
+            url : "/api/personalFeed/posts/",
             dataType: "json",
             success : function (data) {
-                console.log('loading the next 25 posts after submit');
+                console.log('loading the next 25 posts after submit', data);
                 insertPosts(data);
             }
         });

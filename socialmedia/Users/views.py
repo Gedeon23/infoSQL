@@ -104,7 +104,6 @@ class User_Follow_API(APIView):
         else:
             following = True
             user.followers.add(follower)
-
         follower_count = user.followers.count()
         data = {
             'updated': True,

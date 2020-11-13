@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.contrib.auth.views import auth_login
 from django.urls import path
 from Users.views import signup, login_view, logout_view, profile, profile_creation_view, edit_profile_view, user_overview, User_Follow_API
-from .views import home_view, discover, search, error, feed_view
+from .views import home_view, discover, search, error, feed_view, Api_Serve_Feed_Posts
 from sql.views import sql, sql_query
 from django.conf.urls.static import static
 from django.conf import settings
@@ -51,7 +51,7 @@ urlpatterns = [
     path('api/posts/', Get_Post_List.as_view()),
     path('api/post/<int:id>/comments/', Get_Posts_Comment_List.as_view()),
     path('api/comment/<int:id>/comments/', Get_Comments_Comment_List.as_view()),
-    # path('api/personalFeed/posts/<int:post_count>/', ),
+    path('api/personalFeed/posts/', Api_Serve_Feed_Posts.as_view()),
     path('post/<int:id>/like/', Post_Like_API.as_view()),
     path('post/<int:id>/comment/', Post_Comment_API.as_view()),
     path('comment/<int:id>/', comment_view),

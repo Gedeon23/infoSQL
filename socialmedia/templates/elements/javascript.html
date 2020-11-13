@@ -39,11 +39,42 @@ function subToUser(id){
 {% comment %} insert Posts {% endcomment %}
 
 function insertPosts(data){
-    for (i = 0; i < data.comments.length; i++) {
+    for (i = 0; i < data.posts.length; i++) {
         console.log('inserting:')
-        console.log(data.posts[i])
-        post = data.post[i]
+        post = data.posts[i]
+        console.log(post)
         $('#feed').append(`{% include 'elements/rawPost.html' %}`);
+        if (post.image != null){
+            $('.post-image-' + post.id).append(`{% include 'elements/image.html' %}`)
+        }
+    }
+}
+
+{% comment %} insert Comments {% endcomment %}
+
+function updateComments(data){
+    if(data.comments.length == 0){
+        $('#comments').append("<h4 class='text-center'>no comments yet</h4>");
+        commentTree(data);
+    } else {
+        for (i = 0; i < data.comments.length; i++) {
+            console.log('inserting:')
+            console.log(data.comments[i])
+            comment = data.comments[i]
+            $('#comments').append("{% include 'elements/comment.html' %}");
+        }
+        commentTree(data);
+    }
+}
+
+function commentTree(data){
+    par_com = data.comment_tree.parent_comment
+    while (par_com){
+        $('.subcontent').prepend("{% include 'elements/commentparent.html' %}");
+        console.log('appended ')
+        console.log(par_com)
+        par_com = par_com.parent_comment;
     }
 }
 </script>
+
