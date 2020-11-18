@@ -10,7 +10,7 @@ class User_Profile(models.Model):
     nickname        = models.CharField(max_length=30)
     bio             = models.TextField(blank=True, null=True)
     verified        = models.BooleanField(default=False)
-    followers       = models.ManyToManyField(User, related_name=("followers"))
+    followers       = models.ManyToManyField(User, related_name=("is_following"))
 
     def __str__(self):
         return self.user.username
