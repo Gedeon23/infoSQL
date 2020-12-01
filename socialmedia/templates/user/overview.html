@@ -24,7 +24,7 @@
         </div>
       
         <div class="container row">
-            <div class="col-sm-4" ><h4>subs</h4><p id="user-follower-count-{{ user_data.id }}">{{ user.profile.followers.count }}</p></div>
+            <div class="col-sm-4" ><h4>subs</h4><p id="user-follower-count-{{ user_data.id }}">{{ followercount }}</p></div>
             <button class="btn btn-success col-sm-4" onclick="subToUser( {{ user_data.id }} )">sub</button>
         </div>
       </div>
