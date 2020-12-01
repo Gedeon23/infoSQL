@@ -33,7 +33,7 @@ def post_Creation(request):
 
 def edit_post_view(request, id):
     post = get_object_or_404(Post, pk=id)
-    if post.author == request.user:
+    if post.author == request.user.profile:
         if request.method == 'POST':
             form = Post_Creation_Form(
                 request.POST, request.FILES, instance=post)
