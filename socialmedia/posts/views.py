@@ -45,7 +45,7 @@ def edit_post_view(request, id):
             form = Post_Creation_Form(instance=post)
             return render(request, 'post/edit.html', {'form': form, 'request': request})
     else:
-        return redirect('/error/you can only edit your own posts/')
+        return redirect('/error/you can only edit your own posts sike/')
 
 
 def delete_post(request, id):
