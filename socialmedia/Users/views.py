@@ -89,7 +89,7 @@ def edit_profile_view(request):
 def user_overview(request, id):
     user = get_object_or_404(User, pk=id)
     posts = Post.objects.filter(author=user.profile)
-    followercount = user.followers.count()
+    followercount = user.profile.followers.count()
     if user == request.user:
         return redirect('/profile/')
     else:
