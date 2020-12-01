@@ -50,7 +50,7 @@ def edit_post_view(request, id):
 
 def delete_post(request, id):
     post = get_object_or_404(Post, pk=id)
-    if post.author == request.user:
+    if post.author == request.user.profile:
         post.delete()
         return redirect('/profile/')
     else:
