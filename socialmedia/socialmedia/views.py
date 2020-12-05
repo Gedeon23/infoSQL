@@ -10,11 +10,13 @@ from Users.models import User_Profile
 import datetime
 from django.utils import timezone
 from django.apps import apps
+from django.db.models import Count
+
 
 
 def home_view(request):
 
-    feed = Post.objects.all().order_by('-date')
+    feed = Post.objects.annotate(likecount=Count('likes')).order_by('-likecount')
     return render(request, 'home.html', {'request': request, 'feed': feed})
 
 
